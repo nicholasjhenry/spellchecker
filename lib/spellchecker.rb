@@ -8,8 +8,6 @@ require 'spellchecker/build_response'
 
 class Spellchecker
 
-  ASPELL_WORD_DATA_REGEX = Regexp.new(/\&\s\w+\s\d+\s\d+(.*)$/)
-
   @@aspell_path = "aspell"
 
   def self.aspell_path=(path)

@@ -1,5 +1,7 @@
 class Spellchecker
   class BuildResponse
+    ASPELL_WORD_DATA_REGEX = Regexp.new(/\&\s\w+\s\d+\s\d+(.*)$/)
+
     def initialize(text, spell_check_response)
       @text, @spell_check_response = text, spell_check_response
     end
