@@ -2,6 +2,7 @@ class Spellchecker
   require 'net/https'
   require 'uri'
   require 'rexml/document'
+  require 'tempfile'
 
   ASPELL_WORD_DATA_REGEX = Regexp.new(/\&\s\w+\s\d+\s\d+(.*)$/)
 
