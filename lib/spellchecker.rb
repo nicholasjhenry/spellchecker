@@ -2,25 +2,23 @@ class Spellchecker
   require 'net/https'
   require 'uri'
   require 'rexml/document'
-  
+  require 'open3'
+
   ASPELL_WORD_DATA_REGEX = Regexp.new(/\&\s\w+\s\d+\s\d+(.*)$/)
-  
+
   @@aspell_path = "aspell"
-  
+
   def self.aspell_path=(path)
     @@aspell_path = path
   end
-  
+
   def self.aspell_path
     @@aspell_path
   end
-  
+
   def self.check(text, lang='en')
-    tmp = Tempfile.new('spellchecker-tmp')
-    tmp << text
-    tmp.flush
-    tmp.close
-    spell_check_response = `cat "#{tmp.path}" | #{@@aspell_path} -a -l #{lang}`
+    spell_check_response, _ = Open3.capture2("#{@@aspell_path} -a -l #{lang}", stdin_data: text)
+
     if spell_check_response == ''
       raise 'Aspell command not found'
     elsif text == ''
@@ -44,5 +42,5 @@ class Spellchecker
       return response
     end
   end
-  
+
 end
