@@ -32,7 +32,8 @@ class Spellchecker
   end
 
   def self.do_spell_check(text, lang)
-   stdout, _ = Open3.capture2("#{@@aspell_path} -a -l #{lang}", stdin_data: text)
+   command   = [@@aspell_path, '-a', '-l', lang]
+   stdout, _ = Open3.capture2(command.join(' '), stdin_data: text)
 
    raise 'Aspell command not found' if stdout == ''
    stdout
