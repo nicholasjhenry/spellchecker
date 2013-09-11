@@ -17,7 +17,7 @@ class Spellchecker
   end
 
   def self.check(text, lang='en')
-    return [] if text == ''
+    return [] unless valid_text?(text)
 
     spell_check_response = do_spell_check(text, lang)
 
@@ -32,6 +32,10 @@ class Spellchecker
   end
 
   private
+
+  def self.valid_text?(text)
+    text != ''
+  end
 
   def self.do_spell_check(text, lang)
      stdout, _ = Open3.capture2("#{@@aspell_path} -a -l #{lang}", stdin_data: text)
