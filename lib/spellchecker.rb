@@ -23,7 +23,7 @@ class Spellchecker
 
     raise 'Aspell command not found' if spell_check_response == ''
 
-    response = text.split(' ').collect { |original| {:original => original} }
+    response = extract_original_string_tokens(text)
     results = spell_check_response.split("\n").slice(1..-1)
     result_index = 0
     response.each_with_index do |word_hash, index|
@@ -34,6 +34,10 @@ class Spellchecker
   end
 
   private
+
+  def self.extract_original_string_tokens(text)
+    text.split(' ').collect { |original| {:original => original} }
+  end
 
   def self.build_response(response, word_hash, index, results, result_index)
     if word_hash[:original] =~ /[a-zA-z\[\]\?]/
