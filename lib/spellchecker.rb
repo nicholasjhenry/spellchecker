@@ -2,19 +2,19 @@ class Spellchecker
   require 'net/https'
   require 'uri'
   require 'rexml/document'
-  
+
   ASPELL_WORD_DATA_REGEX = Regexp.new(/\&\s\w+\s\d+\s\d+(.*)$/)
-  
+
   @@aspell_path = "aspell"
-  
+
   def self.aspell_path=(path)
     @@aspell_path = path
   end
-  
+
   def self.aspell_path
     @@aspell_path
   end
-  
+
   def self.check(text, lang='en')
     tmp = Tempfile.new('spellchecker-tmp')
     tmp << text
@@ -44,5 +44,5 @@ class Spellchecker
       return response
     end
   end
-  
+
 end
