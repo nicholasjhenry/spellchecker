@@ -27,17 +27,25 @@ class Spellchecker
     results = spell_check_response.split("\n").slice(1..-1)
     result_index = 0
     response.each_with_index do |word_hash, index|
-      if word_hash[:original] =~ /[a-zA-z\[\]\?]/
-        if results[result_index] =~ ASPELL_WORD_DATA_REGEX
-          response[index].merge!(:correct => false, :suggestions => results[result_index].split(':')[1].strip.split(',').map(&:strip))
-        else
-          response[index].merge!(:correct => true)
-        end
-        result_index += 1
+      build_response(response, word_hash, index, results, result_index)
+    end
+
+    response
+  end
+
+  private
+
+  def self.build_response(response, word_hash, index, results, result_index)
+    if word_hash[:original] =~ /[a-zA-z\[\]\?]/
+      if results[result_index] =~ ASPELL_WORD_DATA_REGEX
+        suggestions = results[result_index].split(':')[1].strip.split(',').map(&:strip)
+        response[index].merge!(:correct => false, :suggestions => suggestions)
       else
         response[index].merge!(:correct => true)
       end
+      result_index += 1
+    else
+      response[index].merge!(:correct => true)
     end
-    return response
   end
 end
