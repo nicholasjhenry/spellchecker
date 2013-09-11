@@ -34,10 +34,10 @@ class Spellchecker
   end
 
   def self.do_spell_check(text, lang)
-     stdout, _ = Open3.capture2("#{@@aspell_path} -a -l #{lang}", stdin_data: text)
+   stdout, _ = Open3.capture2("#{@@aspell_path} -a -l #{lang}", stdin_data: text)
 
-     raise 'Aspell command not found' if stdout == ''
-     stdout
+   raise 'Aspell command not found' if stdout == ''
+   stdout
   end
 
   def self.build_response(text, spell_check_response)
