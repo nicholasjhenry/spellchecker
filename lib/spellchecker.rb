@@ -19,9 +19,7 @@ class Spellchecker
   def self.check(text, lang='en')
     return [] if text == ''
 
-    spell_check_response, _ = Open3.capture2("#{@@aspell_path} -a -l #{lang}", stdin_data: text)
-
-    raise 'Aspell command not found' if spell_check_response == ''
+    spell_check_response = do_spell_check(text, lang)
 
     response = extract_original_string_tokens(text)
     results = spell_check_response.split("\n").slice(1..-1)
@@ -34,6 +32,13 @@ class Spellchecker
   end
 
   private
+
+  def self.do_spell_check(text, lang)
+     stdout, _ = Open3.capture2("#{@@aspell_path} -a -l #{lang}", stdin_data: text)
+
+     raise 'Aspell command not found' if stdout == ''
+     stdout
+  end
 
   def self.extract_original_string_tokens(text)
     text.split(' ').collect { |original| {:original => original} }
