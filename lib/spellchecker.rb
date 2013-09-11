@@ -42,5 +42,4 @@ class Spellchecker
       return response
     end
   end
-
 end
