@@ -28,7 +28,7 @@ class Spellchecker
     def build_response_element(response, word_hash, index, results, result_index)
       if word_hash[:original] =~ /[a-zA-z\[\]\?]/
         if results[result_index] =~ ASPELL_WORD_DATA_REGEX
-          suggestions = results[result_index].split(':')[1].strip.split(',').map(&:strip)
+          suggestions = extract_suggestions(results, result_index)
           response[index].merge!(:correct => false, :suggestions => suggestions)
         else
           response[index].merge!(:correct => true)
@@ -37,6 +37,10 @@ class Spellchecker
       else
         response[index].merge!(:correct => true)
       end
+    end
+
+    def extract_suggestions(results, result_index)
+      results[result_index].split(':')[1].strip.split(',').map(&:strip)
     end
   end
 end
