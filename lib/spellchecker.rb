@@ -19,16 +19,8 @@ class Spellchecker
   def self.check(text, lang='en')
     return [] unless valid_text?(text)
 
-    spell_check_response = do_spell_check(text, lang)
-
-    response = extract_original_string_tokens(text)
-    results = spell_check_response.split("\n").slice(1..-1)
-    result_index = 0
-    response.each_with_index do |word_hash, index|
-      build_response_element(response, word_hash, index, results, result_index)
-    end
-
-    response
+    raw_output = do_spell_check(text, lang)
+    build_response(text, raw_output)
   end
 
   private
@@ -42,6 +34,17 @@ class Spellchecker
 
      raise 'Aspell command not found' if stdout == ''
      stdout
+  end
+
+  def self.build_response(text, spell_check_response)
+    response = extract_original_string_tokens(text)
+    results = spell_check_response.split("\n").slice(1..-1)
+    result_index = 0
+    response.each_with_index do |word_hash, index|
+      build_response_element(response, word_hash, index, results, result_index)
+    end
+
+    response
   end
 
   def self.extract_original_string_tokens(text)
