@@ -21,8 +21,8 @@ class Spellchecker
   def self.check(text, lang='en')
     return [] unless valid_text?(text)
 
-    raw_output = do_spell_check(text, lang)
-    build_response(text, raw_output)
+    command_output = do_spell_check(text, lang)
+    build_response(text, command_output)
   end
 
   private
