@@ -1,11 +1,12 @@
 $:.unshift File.expand_path('../../lib', __FILE__)
 
+require 'net/https'
+require 'uri'
+require 'rexml/document'
+require 'open3'
+require 'spellchecker/build_response'
+
 class Spellchecker
-  require 'net/https'
-  require 'uri'
-  require 'rexml/document'
-  require 'open3'
-  require 'spellchecker/build_response'
 
   ASPELL_WORD_DATA_REGEX = Regexp.new(/\&\s\w+\s\d+\s\d+(.*)$/)
 
