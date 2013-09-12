@@ -35,7 +35,7 @@ class Spellchecker
         if correct_spelling?(results[result_index])
           response[index].merge!(:correct => true)
         else
-          suggestions = extract_suggestions(results, result_index)
+          suggestions = extract_suggestions(results[result_index])
           response[index].merge!(:correct => false, :suggestions => suggestions)
         end
         result_index += 1
@@ -52,8 +52,8 @@ class Spellchecker
       !(result_line =~ ASPELL_WORD_DATA_REGEX)
     end
 
-    def extract_suggestions(results, result_index)
-      results[result_index].split(':')[1].strip.split(',').map(&:strip)
+    def extract_suggestions(result_line)
+      result_line.split(':')[1].strip.split(',').map(&:strip)
     end
   end
 end
