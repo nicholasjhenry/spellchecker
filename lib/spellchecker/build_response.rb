@@ -7,9 +7,10 @@ class Spellchecker
     end
 
     def call
-      response = extract_original_string_tokens(text)
-      results = extract_results(command_output)
+      response     = extract_original_string_tokens(text)
+      results      = extract_results(command_output)
       result_index = 0
+
       response.each_with_index do |word_hash, index|
         build_response_element(response, word_hash, index, results, result_index)
       end
