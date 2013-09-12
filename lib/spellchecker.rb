@@ -6,19 +6,21 @@ require 'rexml/document'
 require 'open3'
 require 'spellchecker/build_response'
 
-class Spellchecker
+module Spellchecker
+
+  extend self
 
   @@aspell_path = "aspell"
 
-  def self.aspell_path=(path)
+  def aspell_path=(path)
     @@aspell_path = path
   end
 
-  def self.aspell_path
+  def aspell_path
     @@aspell_path
   end
 
-  def self.check(text, lang='en')
+  def check(text, lang='en')
     return [] unless valid_text?(text)
 
     command_output = do_spell_check(text, lang)
@@ -27,11 +29,11 @@ class Spellchecker
 
   private
 
-  def self.valid_text?(text)
+  def valid_text?(text)
     text != ''
   end
 
-  def self.do_spell_check(text, lang)
+  def do_spell_check(text, lang)
    command   = [@@aspell_path, '-a', '-l', lang]
    stdout, _ = Open3.capture2(command.join(' '), stdin_data: text)
 
@@ -39,7 +41,7 @@ class Spellchecker
    stdout
   end
 
-  def self.build_response(text, spell_check_response)
+  def build_response(text, spell_check_response)
     BuildResponse.new(text, spell_check_response).call
   end
 end

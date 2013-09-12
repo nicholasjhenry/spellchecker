@@ -1,4 +1,4 @@
-class Spellchecker
+module Spellchecker
 
   # Builds a response (a hash) from the raw output from Aspell.
   #
