@@ -1,4 +1,26 @@
 class Spellchecker
+
+  # Builds a response (a hash) from the raw output from Aspell.
+  #
+  # Example:
+  #
+  # Takes Aspell output from the command:
+  #
+  #     echo "test textZ" | aspell -a -l en
+  #
+  # ... resulting in:
+  #
+  #     @(#) International Ispell Version 3.1.20 (but really Aspell 0.60.6.1)
+  #     *
+  #     & textZ 3 11: texts, text, text's
+  #
+  # ... and builds a response (hash) that looks like:
+  #
+  #    [
+  #      {original: text, correct: true  },
+  #      {original: textZ, correct: false, suggestions: [ texts, text, text's] }
+  #    ]
+  #
   class BuildResponse
     ASPELL_WORD_DATA_REGEX = Regexp.new(/\&\s\w+\s\d+\s\d+(.*)$/)
 
