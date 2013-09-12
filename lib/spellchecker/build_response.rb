@@ -9,11 +9,8 @@ class Spellchecker
     def call
       response     = extract_original_string_tokens(text)
       results      = extract_results(command_output)
-      result_index = 0
 
-      response.each_with_index do |word_hash, index|
-        build_response_element(response[index], word_hash, results, result_index)
-      end
+      build_response_from_results(response, results)
 
       response
     end
@@ -28,6 +25,13 @@ class Spellchecker
 
     def extract_results(command_output)
       command_output.split("\n").slice(1..-1)
+    end
+
+    def build_response_from_results(response, results)
+      result_index = 0
+      response.each_with_index do |word_hash, index|
+        build_response_element(response[index], word_hash, results, result_index)
+      end
     end
 
     def build_response_element(response_element, word_hash, results, result_index)
