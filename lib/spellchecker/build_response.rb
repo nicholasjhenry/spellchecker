@@ -35,17 +35,21 @@ class Spellchecker
     end
 
     def build_response_element(response_element, word_hash, results, result_index)
-      if valid_word?(word_hash[:original])
-        if correct_spelling?(results[result_index])
-          response_element.merge!(:correct => true)
-        else
-          suggestions = extract_suggestions(results[result_index])
-          response_element.merge!(:correct => false, :suggestions => suggestions)
-        end
-        result_index += 1
-      else
+      if !valid_word?(word_hash[:original])
         response_element.merge!(:correct => true)
+        return
       end
+
+      if correct_spelling?(results[result_index])
+        response_element.merge!(:correct => true)
+      else
+        suggestions = extract_suggestions(results[result_index])
+        response_element.merge!(:correct => false, :suggestions => suggestions)
+      end
+
+      result_index += 1
+
+      response_element
     end
 
     def valid_word?(word)
