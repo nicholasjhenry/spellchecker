@@ -37,14 +37,13 @@ class Spellchecker
 
     def build_response_element(original_word, results, result_index)
       if !valid_word?(original_word)
-        return {:correct => true}
+        return build_response_element_with_correct_spelling
       end
 
       element = if correct_spelling?(results[result_index])
-        {:correct => true}
+        build_response_element_with_correct_spelling
       else
-        suggestions = extract_suggestions(results[result_index])
-        {:correct => false, :suggestions => suggestions}
+        build_response_element_with_suggestions(results[result_index])
       end
 
       result_index += 1
@@ -58,6 +57,15 @@ class Spellchecker
 
     def correct_spelling?(result_line)
       !(result_line =~ ASPELL_WORD_DATA_REGEX)
+    end
+
+    def build_response_element_with_correct_spelling
+      {:correct => true}
+    end
+
+    def build_response_element_with_suggestions(result_line)
+      suggestions = extract_suggestions(result_line)
+      {:correct => false, :suggestions => suggestions}
     end
 
     def extract_suggestions(result_line)
