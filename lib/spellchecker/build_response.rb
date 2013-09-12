@@ -8,7 +8,7 @@ class Spellchecker
 
     def call
       response = extract_original_string_tokens(text)
-      results = command_output.split("\n").slice(1..-1)
+      results = extract_results(command_output)
       result_index = 0
       response.each_with_index do |word_hash, index|
         build_response_element(response, word_hash, index, results, result_index)
@@ -23,6 +23,10 @@ class Spellchecker
 
     def extract_original_string_tokens(text)
       text.split(' ').collect { |original| {:original => original} }
+    end
+
+    def extract_results(command_output)
+      command_output.split("\n").slice(1..-1)
     end
 
     def build_response_element(response, word_hash, index, results, result_index)
